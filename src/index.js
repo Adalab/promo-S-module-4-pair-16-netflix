@@ -1,6 +1,5 @@
 //// ****** MySQL en Express*****
 const express = require('express');
-
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 
@@ -18,14 +17,13 @@ const serverPort = 4000;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
-//   //console.log('hola');
 
 mysql
   .createConnection({
     host: 'localhost',
-    database: 'test',
+    database: 'netflix',
     user: 'root',
-    password: '',
+    password: '', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
@@ -51,19 +49,18 @@ server.get('/movies', (req, res) => {
     .then(([results, fields]) => {
       console.log('Información recuperada:');
       results.forEach((result) => {
-        console.log(result);
+        console.log({ success: true, movies: results });
       });
 
-      res.json(results);
+      res.json(results); //Para que funcione, esto debe ser:
+      //{success: true, movies: results}
+      // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
     })
     .catch((err) => {
       throw err;
     });
 });
 
-// {
-//   success: true,
-//   movies:  results
-// } // en la segudo linea le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+//
 
 // decidir si en el fetch de api-movies le quieremos poner  '//localhost:4000/api/movies/all' --> como hizo yanelis en clase, y aqui le debemos cambiar el endpoint a: server.get('/api/movies/all'
