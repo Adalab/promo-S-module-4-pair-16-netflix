@@ -1,1 +1,0 @@
-SELECT * FROM freedb_proyectos_y_ya_estaría.authors;
