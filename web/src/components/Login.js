@@ -36,6 +36,7 @@ const Login = props => {
     }
   };
 
+
   return (
     <section className="border--medium">
       <h1>Identifícate</h1>
@@ -64,7 +65,7 @@ const Login = props => {
           onChange={handlePassword}
         />
 
-        <input className="form__btn display-block" type="submit" value="Entrar" />
+        <input className="form__btn display-block" type="submit" onClick={handleForm} value="Entrar" />
 
         {renderErrorMessage()}
       </form>

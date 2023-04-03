@@ -139,6 +139,26 @@ server.get('/movies', (req, res) => {
   // }
 });
 
+server.post('/login', (req, res) => {
+  console.log('Body params:', req.body);
+    connection.query('SELECT * FROM users WHERE email = ? AND password = ? ', [req.body.email, req.body.password])
+  //   if (data.email.includes('gmail')) {
+    //     return {
+    //       "success": true,
+    //       "userId": "id_de_la_usuaria_encontrada"
+    //     };
+    //   } else {
+    //     return {
+    //       "success": false,
+    //       "errorMessage": "Usuaria/o no encontrada/o"
+    //     };
+    //   }
+
+});
+
+
+
+
 //
 
 // decidir si en el fetch de api-movies le quieremos poner  '//localhost:4000/api/movies/all' --> como hizo yanelis en clase, y aqui le debemos cambiar el endpoint a: server.get('/api/movies/all'
