@@ -23,7 +23,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: '', // aqui cada quien pone su propio password
+    password: 'Valkyria891103', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
@@ -44,21 +44,99 @@ mysql
 
 server.get('/movies', (req, res) => {
   console.log('Pidiendo a la base de datos información de los peliculas.');
-  connection
-    .query('SELECT * FROM movies')
-    .then(([results, fields]) => {
-      console.log('Información recuperada:');
-      results.forEach((result) => {
-        console.log({ success: true, movies: results });
-      });
+  const genreFilterParam = req.query.genre;
+  const sortFilterParam = req.query.sort;
+  if (genreFilterParam === ''){
+    if(sortFilterParam === 'asc'){
+      connection
+      .query('SELECT * FROM movies ORDER BY title ASC')
+      .then(([results, fields]) => {
+        console.log('Información recuperada:');
+        console.log(req.query.genre)
+        results.forEach((result) => {
+          console.log({ success: true, movies: results });
+        });
 
-      res.json(results); //Para que funcione, esto debe ser:
-      //{success: true, movies: results}
-      // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-    })
-    .catch((err) => {
-      throw err;
-    });
+        res.json({success: true, movies: results}); 
+        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+      })
+      .catch((err) => {
+        throw err;
+      });
+    }else {
+      connection
+        .query('SELECT * FROM movies ORDER BY title DESC')
+        .then(([results, fields]) => {
+          console.log('Información recuperada:');
+          console.log(req.query.genre)
+          results.forEach((result) => {
+            console.log({ success: true, movies: results });
+          });
+
+          res.json({success: true, movies: results}); 
+          // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
+
+  } else{
+      connection
+      .query('SELECT * FROM movies WHERE genre = ?', [genreFilterParam])
+      .then(([results, fields]) => {
+        console.log('Información recuperada:');
+        console.log(req.query.genre)
+        results.forEach((result) => {
+          console.log({ success: true, movies: results });
+        });
+
+        res.json({success: true, movies: results}); 
+        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+      })
+      .catch((err) => {
+        throw err;
+      });
+    }
+    
+
+  // } else{
+  //    if(sortFilterParam === 'asc'){
+  //     connection
+  //     .query('SELECT * FROM movies WHERE genre = ? AND ORDEY BY title ASC', [genreFilterParam])
+  //     .then(([results, fields]) => {
+  //       console.log('Información recuperada:');
+  //       console.log(req.query.genre)
+  //       results.forEach((result) => {
+  //         console.log({ success: true, movies: results });
+  //       });
+
+  //       res.json({success: true, movies: results}); 
+  //       // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  //   }else{
+  //     connection
+  //     .query('SELECT * FROM movies WHERE genre = ? AND ORDEY BY title DESC', [genreFilterParam])
+  //     .then(([results, fields]) => {
+  //       console.log('Información recuperada:');
+  //       console.log(req.query.genre)
+  //       results.forEach((result) => {
+  //         console.log({ success: true, movies: results });
+  //       });
+
+  //       res.json({success: true, movies: results}); 
+  //       // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+
+  //   }
+    
+  // }
 });
 
 //
