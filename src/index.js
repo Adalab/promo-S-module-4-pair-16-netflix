@@ -80,10 +80,10 @@ server.get('/movies', (req, res) => {
           throw err;
         });
     }
-
   } else{
+     if(sortFilterParam === 'asc'){
       connection
-      .query('SELECT * FROM movies WHERE genre = ?', [genreFilterParam])
+      .query('SELECT * FROM movies WHERE genre = ? ORDER BY title ASC', [genreFilterParam])
       .then(([results, fields]) => {
         console.log('Información recuperada:');
         console.log(req.query.genre)
@@ -97,46 +97,26 @@ server.get('/movies', (req, res) => {
       .catch((err) => {
         throw err;
       });
+    }else{
+      connection
+      .query('SELECT * FROM movies WHERE genre = ? ORDER BY title DESC', [genreFilterParam])
+      .then(([results, fields]) => {
+        console.log('Información recuperada:');
+        console.log(req.query.genre)
+        results.forEach((result) => {
+          console.log({ success: true, movies: results });
+        });
+
+        res.json({success: true, movies: results}); 
+        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+      })
+      .catch((err) => {
+        throw err;
+      });
+
     }
     
-
-  // } else{
-  //    if(sortFilterParam === 'asc'){
-  //     connection
-  //     .query('SELECT * FROM movies WHERE genre = ? AND ORDEY BY title ASC', [genreFilterParam])
-  //     .then(([results, fields]) => {
-  //       console.log('Información recuperada:');
-  //       console.log(req.query.genre)
-  //       results.forEach((result) => {
-  //         console.log({ success: true, movies: results });
-  //       });
-
-  //       res.json({success: true, movies: results}); 
-  //       // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     });
-  //   }else{
-  //     connection
-  //     .query('SELECT * FROM movies WHERE genre = ? AND ORDEY BY title DESC', [genreFilterParam])
-  //     .then(([results, fields]) => {
-  //       console.log('Información recuperada:');
-  //       console.log(req.query.genre)
-  //       results.forEach((result) => {
-  //         console.log({ success: true, movies: results });
-  //       });
-
-  //       res.json({success: true, movies: results}); 
-  //       // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     });
-
-  //   }
-    
-  // }
+  }
 });
 
 server.post('/login', (req, res) => {
