@@ -43,7 +43,7 @@ mysql
   });
 
 server.get('/movies', (req, res) => {
-  console.log('Pidiendo a la base de datos información de los peliculas.');
+  //console.log('Pidiendo a la base de datos información de los peliculas.');
   const genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
   if (genreFilterParam === '') {
@@ -51,8 +51,8 @@ server.get('/movies', (req, res) => {
       connection
         .query('SELECT * FROM movies ORDER BY title ASC')
         .then(([results, fields]) => {
-          console.log('Información recuperada:');
-          console.log(req.query.genre);
+          //console.log('Información recuperada:');
+          // console.log(req.query.genre);
           results.forEach((result) => {
             console.log({ success: true, movies: results });
           });
@@ -67,10 +67,10 @@ server.get('/movies', (req, res) => {
       connection
         .query('SELECT * FROM movies ORDER BY title DESC')
         .then(([results, fields]) => {
-          console.log('Información recuperada:');
-          console.log(req.query.genre);
+          // console.log('Información recuperada:');
+          // console.log(req.query.genre);
           results.forEach((result) => {
-            console.log({ success: true, movies: results });
+            //console.log({ success: true, movies: results });
           });
 
           res.json({ success: true, movies: results });
@@ -87,10 +87,10 @@ server.get('/movies', (req, res) => {
           genreFilterParam,
         ])
         .then(([results, fields]) => {
-          console.log('Información recuperada:');
-          console.log(req.query.genre);
+          // console.log('Información recuperada:');
+          // console.log(req.query.genre);
           results.forEach((result) => {
-            console.log({ success: true, movies: results });
+            // console.log({ success: true, movies: results });
           });
 
           res.json({ success: true, movies: results });
@@ -105,10 +105,10 @@ server.get('/movies', (req, res) => {
           genreFilterParam,
         ])
         .then(([results, fields]) => {
-          console.log('Información recuperada:');
-          console.log(req.query.genre);
+          //console.log('Información recuperada:');
+          //console.log(req.query.genre);
           results.forEach((result) => {
-            console.log({ success: true, movies: results });
+            //console.log({ success: true, movies: results });
           });
 
           res.json({ success: true, movies: results });
@@ -122,22 +122,27 @@ server.get('/movies', (req, res) => {
 });
 
 server.post('/login', (req, res) => {
-  console.log('Body params:', req.body);
+  console.log(req.body);
   connection
     .query('SELECT * FROM users WHERE email = ? AND password = ? ', [
       req.body.email,
       req.body.password,
-    ])
+    ]) // las comillas del select deben ser ``?
     .then(([results, fields]) => {
       if (results.length > 0) {
-        res.json({ success: true, userId: results.idUser });
-        //console.log(results);
+        // debe ser > 0 o solo results.legnth??
+        console.log('true'); // si email y password estan correctos nos regresan true
+        res.json({ success: true, userId: results[0].idUser }); // esto hico ivan en clase
       } else {
+        console.log('false'); // si email y contrasdena no estan correctos nos regresa false
         res.json({
           success: false,
           errorMessage: 'Usuaria/o no encontrada/o',
         });
       }
+    })
+    .catch((err) => {
+      throw err;
     });
 });
 
