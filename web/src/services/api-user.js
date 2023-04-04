@@ -11,22 +11,10 @@ const sendLoginToApi = (data) => {
     },
   })
     .then((response) => response.json())
-    .then(() => {
+    .then(data => {
       return data;
-      // CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA
-      //   if (data.email.includes('gmail')) {
-      //     return {
-      //       success: true,
-      //       userId: '123'
-      //     };
-      //   } else {
-      //     return {
-      //       success: false,
-      //       errorMessage: 'Usuario no encontrado'
-      //     };
-      //   }
     });
-};
+    };
 
 // signup
 

@@ -23,7 +23,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'vero5886', // aqui cada quien pone su propio password
+    password: 'Valkyria891103', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
@@ -131,14 +131,11 @@ server.post('/login', (req, res) => {
     .then(([results, fields]) => {
       if (results.length > 0) {
         // debe ser > 0 o solo results.legnth??
-        console.log('true'); // si email y password estan correctos nos regresan true
+        console.log('true');// si email y password estan correctos nos regresan true
         res.json({ success: true, userId: results[0].idUser }); // esto hico ivan en clase
       } else {
         console.log('false'); // si email y contrasdena no estan correctos nos regresa false
-        res.json({
-          success: false,
-          errorMessage: 'Usuaria/o no encontrada/o',
-        });
+        res.json({ success: false, errorMessage: 'Usuaria/o no encontrada/o' });
       }
     })
     .catch((err) => {
