@@ -23,7 +23,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Valkyria891103', // aqui cada quien pone su propio password
+    password: 'vero5886', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
@@ -46,99 +46,110 @@ server.get('/movies', (req, res) => {
   console.log('Pidiendo a la base de datos información de los peliculas.');
   const genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
-  if (genreFilterParam === ''){
-    if(sortFilterParam === 'asc'){
+  if (genreFilterParam === '') {
+    if (sortFilterParam === 'asc') {
       connection
-      .query('SELECT * FROM movies ORDER BY title ASC')
-      .then(([results, fields]) => {
-        console.log('Información recuperada:');
-        console.log(req.query.genre)
-        results.forEach((result) => {
-          console.log({ success: true, movies: results });
-        });
-
-        res.json({success: true, movies: results}); 
-        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-      })
-      .catch((err) => {
-        throw err;
-      });
-    }else {
-      connection
-        .query('SELECT * FROM movies ORDER BY title DESC')
+        .query('SELECT * FROM movies ORDER BY title ASC')
         .then(([results, fields]) => {
           console.log('Información recuperada:');
-          console.log(req.query.genre)
+          console.log(req.query.genre);
           results.forEach((result) => {
             console.log({ success: true, movies: results });
           });
 
-          res.json({success: true, movies: results}); 
+          res.json({ success: true, movies: results });
+          // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else {
+      connection
+        .query('SELECT * FROM movies ORDER BY title DESC')
+        .then(([results, fields]) => {
+          console.log('Información recuperada:');
+          console.log(req.query.genre);
+          results.forEach((result) => {
+            console.log({ success: true, movies: results });
+          });
+
+          res.json({ success: true, movies: results });
           // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
         })
         .catch((err) => {
           throw err;
         });
     }
-  } else{
-     if(sortFilterParam === 'asc'){
+  } else {
+    if (sortFilterParam === 'asc') {
       connection
-      .query('SELECT * FROM movies WHERE genre = ? ORDER BY title ASC', [genreFilterParam])
-      .then(([results, fields]) => {
-        console.log('Información recuperada:');
-        console.log(req.query.genre)
-        results.forEach((result) => {
-          console.log({ success: true, movies: results });
-        });
+        .query('SELECT * FROM movies WHERE genre = ? ORDER BY title ASC', [
+          genreFilterParam,
+        ])
+        .then(([results, fields]) => {
+          console.log('Información recuperada:');
+          console.log(req.query.genre);
+          results.forEach((result) => {
+            console.log({ success: true, movies: results });
+          });
 
-        res.json({success: true, movies: results}); 
-        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-      })
-      .catch((err) => {
-        throw err;
-      });
-    }else{
+          res.json({ success: true, movies: results });
+          // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else {
       connection
-      .query('SELECT * FROM movies WHERE genre = ? ORDER BY title DESC', [genreFilterParam])
-      .then(([results, fields]) => {
-        console.log('Información recuperada:');
-        console.log(req.query.genre)
-        results.forEach((result) => {
-          console.log({ success: true, movies: results });
+        .query('SELECT * FROM movies WHERE genre = ? ORDER BY title DESC', [
+          genreFilterParam,
+        ])
+        .then(([results, fields]) => {
+          console.log('Información recuperada:');
+          console.log(req.query.genre);
+          results.forEach((result) => {
+            console.log({ success: true, movies: results });
+          });
+
+          res.json({ success: true, movies: results });
+          // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
+        })
+        .catch((err) => {
+          throw err;
         });
-
-        res.json({success: true, movies: results}); 
-        // despues de la, le decimos que movies es igual a result--> result es el resultado del DB que le hemos pedido con el query/select
-      })
-      .catch((err) => {
-        throw err;
-      });
-
     }
-    
   }
 });
 
 server.post('/login', (req, res) => {
   console.log('Body params:', req.body);
-    connection.query('SELECT * FROM users WHERE email = ? AND password = ? ', [req.body.email, req.body.password])
-  //   if (data.email.includes('gmail')) {
-    //     return {
-    //       "success": true,
-    //       "userId": "id_de_la_usuaria_encontrada"
-    //     };
-    //   } else {
-    //     return {
-    //       "success": false,
-    //       "errorMessage": "Usuaria/o no encontrada/o"
-    //     };
-    //   }
-
+  connection
+    .query('SELECT * FROM users WHERE email = ? AND password = ? ', [
+      req.body.email,
+      req.body.password,
+    ])
+    .then(([results, fields]) => {
+      if (results.length > 0) {
+        res.json({ success: true, userId: results.idUser });
+        //console.log(results);
+      } else {
+        res.json({
+          success: false,
+          errorMessage: 'Usuaria/o no encontrada/o',
+        });
+      }
+    });
 });
 
-
-
-
 //
-
-// decidir si en el fetch de api-movies le quieremos poner  '//localhost:4000/api/movies/all' --> como hizo yanelis en clase, y aqui le debemos cambiar el endpoint a: server.get('/api/movies/all'
+//   //   if (data.email.includes('gmail')) {
+//   //     return {
+//   //       "success": true,
+//   //       "userId": "id_de_la_usuaria_encontrada"
+//   //     };
+//   //   } else {
+//   //     return {
+//   //       "success": false,
+//   //       "errorMessage": "Usuaria/o no encontrada/o"
+//   //     };
+//   //   }
