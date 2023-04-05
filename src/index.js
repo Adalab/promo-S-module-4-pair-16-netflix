@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const path = require('path');
 
 // Aquí almacenaremos la conexión a la base de datos// Agui guardo la informacion de la conexion
 let connection;
@@ -9,6 +10,7 @@ let connection;
 // Configuramos el servidor
 const server = express(); /// Creamos el servidor y/o app
 server.use(cors());
+server.use(  express.static('./public')  );
 server.use(express.json({ limit: '10mb' }));
 //app.use(express.json({ limit: '25mb' }));
 
@@ -143,15 +145,7 @@ server.post('/login', (req, res) => {
     });
 });
 
-//
-//   //   if (data.email.includes('gmail')) {
-//   //     return {
-//   //       "success": true,
-//   //       "userId": "id_de_la_usuaria_encontrada"
-//   //     };
-//   //   } else {
-//   //     return {
-//   //       "success": false,
-//   //       "errorMessage": "Usuaria/o no encontrada/o"
-//   //     };
-//   //   }
+server.get('src/public-react/', (req,res) =>{
+  const absolutePathtoApp = path.join(__dirname, '../') // a qué carpeta???????
+  res.sendFile(absolutePathtoApp);
+})

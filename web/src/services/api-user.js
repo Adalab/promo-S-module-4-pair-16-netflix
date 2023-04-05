@@ -11,7 +11,7 @@ const sendLoginToApi = (data) => {
     },
   })
     .then((response) => response.json())
-    .then(data => {
+    .then((data) => {
       return data;
     });
     };
