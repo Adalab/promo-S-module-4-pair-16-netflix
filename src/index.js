@@ -25,7 +25,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'vero5886', // aqui cada quien pone su propio password
+    password: 'Valkyria891103', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
