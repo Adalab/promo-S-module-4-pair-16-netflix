@@ -10,7 +10,7 @@ let connection;
 // Configuramos el servidor
 const server = express(); /// Creamos el servidor y/o app
 server.use(cors());
-server.use(  express.static('./public')  );
+
 server.use(express.json({ limit: '10mb' }));
 //app.use(express.json({ limit: '25mb' }));
 
@@ -25,7 +25,7 @@ mysql
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Valkyria891103', // aqui cada quien pone su propio password
+    password: 'vero5886', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
@@ -133,7 +133,7 @@ server.post('/login', (req, res) => {
     .then(([results, fields]) => {
       if (results.length > 0) {
         // debe ser > 0 o solo results.legnth??
-        console.log('true');// si email y password estan correctos nos regresan true
+        console.log('true'); // si email y password estan correctos nos regresan true
         res.json({ success: true, userId: results[0].idUser }); // esto hico ivan en clase
       } else {
         console.log('false'); // si email y contrasdena no estan correctos nos regresa false
@@ -145,7 +145,12 @@ server.post('/login', (req, res) => {
     });
 });
 
-server.get('src/public-react/', (req,res) =>{
-  const absolutePathtoApp = path.join(__dirname, '../') // a qué carpeta???????
-  res.sendFile(absolutePathtoApp);
-})
+// server.get('src/public-react/', (req, res) => {
+//   const absolutePathtoApp = path.join(__dirname, '../'); // a qué carpeta???????
+//   res.sendFile(absolutePathtoApp);
+// });
+
+// servidor de estaticos
+server.use(express.static('./src/public-react'));
+
+server.use(express.static('./src/public-movies-images'));

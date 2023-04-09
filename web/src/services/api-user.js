@@ -14,7 +14,7 @@ const sendLoginToApi = (data) => {
     .then((data) => {
       return data;
     });
-    };
+};
 
 // signup
 
