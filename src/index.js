@@ -29,52 +29,87 @@ const Movies = require('../models/movies.js');
 const Users = require('../models/movies.js');
 
 server.get('/movies_all_mongo', (req, res) => {
-  Movies.find({}, { title: 1, _id: 0 })
-    .sort({ title: -1 })
-    .then((doc) => {
-      res.json({ success: true, movies: doc });
-    })
-    .catch((error) => {
-      console.log('Error', error);
-    });
-});
-
-//db.mycol.find({}, { title: 1, _id: 0 }).sort({ title: -1 });
-
-server.get('/movies_filterGenre_mongo/:genreValue', (req, res) => {
-  const { genreValue } = req.params;
-  Movies.find({ genre: genreValue })
-    .then((doc) => {
-      res.json({ success: true, movies: doc });
-    })
-    .catch((error) => {
-      console.log('Error', error);
-    });
-});
-
-mysql
-  .createConnection({
-    host: 'localhost',
-    database: 'netflix',
-    user: 'root',
-    password: 'vero5886', // aqui cada quien pone su propio password
-  })
-  .then((conn) => {
-    connection = conn;
-    connection
-      .connect()
-      .then(() => {
-        console.log(
-          `Conexión establecida con la base de datos (identificador=${connection.threadId})`
-        );
+  const genreFilterParam = req.query.genre;
+  const sortFilterParam = req.query.sort;
+  if (genreFilterParam === '') {
+    if (sortFilterParam === 'asc') {
+     Movies.find({})
+        .sort({ title: 'asc'})       
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    }else{
+      Movies.find({})
+      .sort({ title: 'desc'})       
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+  }}else if(genreFilterParam !== ''){
+    if (sortFilterParam === 'asc') {
+      
+      Movies.find({ genre: genreFilterParam })
+        .sort({ title: 'asc'})  
+  
+      .then((doc) => {
+        res.json({ success: true, movies: doc });
       })
-      .catch((err) => {
-        console.error('Error de conexion: ' + err.stack);
+      .catch((error) => {
+        console.log('Error', error);
       });
-  })
-  .catch((err) => {
-    console.error('Error de configuración: ' + err.stack);
-  });
+    }else{
+      Movies.find({ genre: genreFilterParam })
+          .sort({ title: 'desc'})  
+  
+      .then((doc) => {
+        res.json({ success: true, movies: doc });
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+    }
+  }});
+
+
+// server.get('/movies_filterGenre_mongo/:genreValue', (req, res) => {
+//   const { genreValue } = req.params;
+//   Movies.find({ genre: genreValue })
+//     .then((doc) => {
+//       res.json({ success: true, movies: doc });
+//     })
+//     .catch((error) => {
+//       console.log('Error', error);
+//     });
+// });
+
+// mysql
+//   .createConnection({
+//     host: 'localhost',
+//     database: 'netflix',
+//     user: 'root',
+//     password: 'vero5886', // aqui cada quien pone su propio password
+//   })
+//   .then((conn) => {
+//     connection = conn;
+//     connection
+//       .connect()
+//       .then(() => {
+//         console.log(
+//           `Conexión establecida con la base de datos (identificador=${connection.threadId})`
+//         );
+//       })
+//       .catch((err) => {
+//         console.error('Error de conexion: ' + err.stack);
+//       });
+//   })
+//   .catch((err) => {
+//     console.error('Error de configuración: ' + err.stack);
+//   });
 
 server.get('/movies', (req, res) => {
   //console.log('Pidiendo a la base de datos información de los peliculas.');
