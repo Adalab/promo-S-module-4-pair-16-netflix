@@ -39,13 +39,13 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 - [x] 1. Filtrar por género
 - [x] 2. Ordenar por nombre
-- [ ] 3. Login
+- [x] 3. Login
 - [ ] 4. Bonus: Mantén logueada a la usuaria
 
 **4.7 Express JS III:**
 
-- [ ] 1. Servidor de estáticos para React
-- [ ] 2. Servidor de estáticos para las fotos
+- [x] 1. Servidor de estáticos para React
+- [x] 2. Servidor de estáticos para las fotos
 - [ ] 3. Crea un motor de plantillas
 
   - [ ] 1. Obtener el id de la película a renderizar
@@ -56,14 +56,14 @@ Por favor marca a continuación los ejercicios que hayáis terminado:
 
 **4.8 Mongo I:**
 
-- [ ] 1. Configura MongoDB Atlas
-- [ ] 2. Crea la bases de datos Netflix
+- [x] 1. Configura MongoDB Atlas
+- [x] 2. Crea la bases de datos Netflix
 
 **4.9 Mongo II:**
 
-- [ ] 1. Conexión con la bases de datos de MongoDB
-- [ ] 2. Modelos para las colecciones
-- [ ] 3. Listado de películas
+- [x] 1. Conexión con la bases de datos de MongoDB
+- [x] 2. Modelos para las colecciones
+- [x] 3. Listado de películas
 - [ ] 4. Ordena por nombre
 
 **4.10 Mongo III:**

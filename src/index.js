@@ -11,7 +11,7 @@ let connection;
 const server = express(); /// Creamos el servidor y/o app
 server.use(cors());
 
-server.use(express.json({ limit: '10mb' }));
+server.use(express.json({ limit: '25mb' }));
 //app.use(express.json({ limit: '25mb' }));
 
 // Arrancamos el servidor en el puerto 4000 --> creo que toda esta parte comentada no es necesario
@@ -20,12 +20,30 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
+const mongoose = require('mongoose');
+const dbConnect = require('../config/connection');
+dbConnect();
+
+const Actors = require('../models/actors.js');
+const Movies = require('../models/movies.js');
+const Users = require('../models/movies.js');
+
+server.get('/movies_all_mongo', (req, res) => {
+  Movies.find({}).then((doc, err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json({ success: true, movies: doc });
+    }
+  });
+});
+
 mysql
   .createConnection({
     host: 'localhost',
     database: 'netflix',
     user: 'root',
-    password: 'Valkyria891103', // aqui cada quien pone su propio password
+    password: 'vero5886', // aqui cada quien pone su propio password
   })
   .then((conn) => {
     connection = conn;
