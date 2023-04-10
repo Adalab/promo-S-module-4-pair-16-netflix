@@ -29,13 +29,27 @@ const Movies = require('../models/movies.js');
 const Users = require('../models/movies.js');
 
 server.get('/movies_all_mongo', (req, res) => {
-  Movies.find({}).then((doc, err) => {
-    if (err) {
-      console.log(err);
-    } else {
+  Movies.find({}, { title: 1, _id: 0 })
+    .sort({ title: -1 })
+    .then((doc) => {
       res.json({ success: true, movies: doc });
-    }
-  });
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+});
+
+//db.mycol.find({}, { title: 1, _id: 0 }).sort({ title: -1 });
+
+server.get('/movies_filterGenre_mongo/:genreValue', (req, res) => {
+  const { genreValue } = req.params;
+  Movies.find({ genre: genreValue })
+    .then((doc) => {
+      res.json({ success: true, movies: doc });
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
 });
 
 mysql
