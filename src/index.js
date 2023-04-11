@@ -27,12 +27,13 @@ dbConnect();
 const Actors = require('../models/actors.js');
 const Movies = require('../models/movies.js');
 const Users = require('../models/movies.js');
+const Favorites = require('../models/favorites.js');
 
 server.get('/movies_all_mongo', (req, res) => {
   const genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
   if (genreFilterParam === '') {
-    if (sortFilterParam === 'asc') {
+    if (sortFilterParam === 'asc') { //Se podría poner un ternario para hacerlo más corto??? sort({ title: sortValue === 'asc' ? 1 : -1 })
      Movies.find({})
         .sort({ title: 'asc'})       
         .then((doc) => {
@@ -74,6 +75,22 @@ server.get('/movies_all_mongo', (req, res) => {
       });
     }
   }});
+
+server.post('/favorites-add', (req, res) => {
+  let idMoviefav = '642d70d813f261874cadda03'
+  let idUserfav = '642d72f113f261874cadda08'
+  const favorite = new Favorites(
+    {
+    idUser: idMoviefav,
+    idMovie: idUserfav,
+    score: 10 //Eso estaba con req.body.score
+    }
+  );
+    favorite.save()
+    .then((docs)=>{res.json(docs)})
+});
+
+
 
 
 // server.get('/movies_filterGenre_mongo/:genreValue', (req, res) => {
