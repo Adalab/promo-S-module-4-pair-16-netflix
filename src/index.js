@@ -33,65 +33,63 @@ server.get('/movies_all_mongo', (req, res) => {
   const genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
   if (genreFilterParam === '') {
-    if (sortFilterParam === 'asc') { //Se podría poner un ternario para hacerlo más corto??? sort({ title: sortValue === 'asc' ? 1 : -1 })
-     Movies.find({})
-        .sort({ title: 'asc'})       
-        .then((doc) => {
-          res.json({ success: true, movies: doc });
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
-    }else{
-      Movies.find({})
-      .sort({ title: 'desc'})       
-        .then((doc) => {
-          res.json({ success: true, movies: doc });
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
-  }}else if(genreFilterParam !== ''){
     if (sortFilterParam === 'asc') {
-      
-      Movies.find({ genre: genreFilterParam })
-        .sort({ title: 'asc'})  
-  
-      .then((doc) => {
-        res.json({ success: true, movies: doc });
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
-    }else{
-      Movies.find({ genre: genreFilterParam })
-          .sort({ title: 'desc'})  
-  
-      .then((doc) => {
-        res.json({ success: true, movies: doc });
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
+      //Se podría poner un ternario para hacerlo más corto??? sort({ title: sortValue === 'asc' ? 1 : -1 })
+      Movies.find({})
+        .sort({ title: 'asc' })
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    } else {
+      Movies.find({})
+        .sort({ title: 'desc' })
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
     }
-  }});
+  } else if (genreFilterParam !== '') {
+    if (sortFilterParam === 'asc') {
+      Movies.find({ genre: genreFilterParam })
+        .sort({ title: 'asc' })
 
-server.post('/favorites-add', (req, res) => {
-  let idMoviefav = '642d70d813f261874cadda03'
-  let idUserfav = '642d72f113f261874cadda08'
-  const favorite = new Favorites(
-    {
-    idUser: idMoviefav,
-    idMovie: idUserfav,
-    score: 10 //Eso estaba con req.body.score
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    } else {
+      Movies.find({ genre: genreFilterParam })
+        .sort({ title: 'desc' })
+
+        .then((doc) => {
+          res.json({ success: true, movies: doc });
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
     }
-  );
-    favorite.save()
-    .then((docs)=>{res.json(docs)})
+  }
 });
 
-
-
+server.post('/favorites-add', (req, res) => {
+  let idMoviefav = '642d71eb13f261874cadda04';
+  let idUserfav = '642d72f113f261874cadda07';
+  const favorite = new Favorites({
+    idUser: idUserfav,
+    idMovie: idMoviefav,
+    score: 10, //Eso estaba con req.body.score
+  });
+  favorite.save().then((docs) => {
+    res.json(docs);
+  });
+});
 
 // server.get('/movies_filterGenre_mongo/:genreValue', (req, res) => {
 //   const { genreValue } = req.params;
@@ -104,29 +102,29 @@ server.post('/favorites-add', (req, res) => {
 //     });
 // });
 
-// mysql
-//   .createConnection({
-//     host: 'localhost',
-//     database: 'netflix',
-//     user: 'root',
-//     password: 'vero5886', // aqui cada quien pone su propio password
-//   })
-//   .then((conn) => {
-//     connection = conn;
-//     connection
-//       .connect()
-//       .then(() => {
-//         console.log(
-//           `Conexión establecida con la base de datos (identificador=${connection.threadId})`
-//         );
-//       })
-//       .catch((err) => {
-//         console.error('Error de conexion: ' + err.stack);
-//       });
-//   })
-//   .catch((err) => {
-//     console.error('Error de configuración: ' + err.stack);
-//   });
+mysql
+  .createConnection({
+    host: 'localhost',
+    database: 'netflix',
+    user: 'root',
+    password: 'vero5886', // aqui cada quien pone su propio password
+  })
+  .then((conn) => {
+    connection = conn;
+    connection
+      .connect()
+      .then(() => {
+        console.log(
+          `Conexión establecida con la base de datos (identificador=${connection.threadId})`
+        );
+      })
+      .catch((err) => {
+        console.error('Error de conexion: ' + err.stack);
+      });
+  })
+  .catch((err) => {
+    console.error('Error de configuración: ' + err.stack);
+  });
 
 server.get('/movies', (req, res) => {
   //console.log('Pidiendo a la base de datos información de los peliculas.');
