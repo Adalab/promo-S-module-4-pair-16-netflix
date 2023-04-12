@@ -26,9 +26,10 @@ dbConnect();
 
 const Actors = require('../models/actors.js');
 const Movies = require('../models/movies.js');
-const Users = require('../models/movies.js');
+const Users = require('../models/users.js');
 const Favorites = require('../models/favorites.js');
 
+//Listar películas y ordenarlas por nombre/titulo
 server.get('/movies_all_mongo', (req, res) => {
   const genreFilterParam = req.query.genre;
   const sortFilterParam = req.query.sort;
